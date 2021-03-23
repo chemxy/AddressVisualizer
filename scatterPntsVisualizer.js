@@ -18,7 +18,7 @@ AMapLoader.load({ //首次调用 load
     var geodata = require("./geodata.json");
     // console.log(geodata);
 
-    /* address convertor */
+    /* convertor a single address to a point on the map */
     // var marker = new AMap.Marker();
     // AMap.plugin('AMap.Geocoder', function () {
     //     var geocoder = new AMap.Geocoder({
@@ -38,28 +38,33 @@ AMapLoader.load({ //首次调用 load
     //     });
 
     // });
-    /* end */
-
-    /* massive pointes */
-    // var mass = new AMap.MassMarks(citys, {
-    //     opacity: 0.8,
-    //     zIndex: 111,
-    //     cursor: 'pointer',
-    //     style: {
-    //         url: 'https://webapi.amap.com/images/mass/mass0.png',
-    //         anchor: new AMap.Pixel(3, 3),
-    //         size: new AMap.Size(3, 3),
-    //         zIndex: 3,
-    //     }
-    // });
-    // var marker = new AMap.Marker({ content: ' ', map: map });
-    // mass.setMap(map);
-    /* end */
+    /* end convertion */
 
 
-    /* massive pointes on Loca */
+    /* massive scatter points layer */
     const layer = new Loca.ScatterPointLayer({
-        map: map
+        map: map,
+        eventSupport: true,
+    });
+
+    /* load event listner */
+    layer.on('mousemove', function (ev) {
+        // 事件类型
+        var type = ev.type;
+        // 当前元素的原始数据
+        var rawData = ev.rawData;
+        // 原始鼠标事件
+        var originalEvent = ev.originalEvent;
+
+        openInfoWin(map, originalEvent, {
+            '名称': rawData.name,
+            '位置': rawData.lnglat,
+            '个数': rawData.count
+        });
+    });
+
+    layer.on('mouseleave', function (ev) {
+        closeInfoWin();
     });
 
     layer.setData(geodata, {
@@ -73,13 +78,13 @@ AMapLoader.load({ //首次调用 load
             radius: 5,     // 圆形半径，单位像素
             color: '#14B4C9', // 填充颜色
             borderWidth: 0.5,   // 边框宽度
-            borderColor: '#14B4C9'  // 边框颜色
+            borderColor: '#14B4C9',  // 边框颜色
+            opacity: '0.8'
+
         }
     });
 
     layer.render();
-
-    /* end */
 }).catch((e) => {
     console.log(e);
 });
