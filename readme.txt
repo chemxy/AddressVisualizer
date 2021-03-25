@@ -1,5 +1,7 @@
-1. node addrConvertor.js
+需要：
 
-2. browserify addrVisualizer.js -o bundle.js
-
-3. open amapLoca.html in browser
+1. nodejs:
+	- 下载nodejs： https://nodejs.org/en/download/
+	- 添加到系统变量（Path）
+2. browserify :
+	命令提示符：npm install -g browserify

@@ -7,7 +7,7 @@ AMapLoader.load({ //首次调用 load
         version: '1.3.2',
     }
 }).then((AMap) => {
-    map = new AMap.Map('container', {
+    map = new AMap.Map('scatterPntsMap', {
         zoom: 11,
         mapStyle: 'amap://styles/grey',
         center: [104.773447, 29.352765],//中心点坐标
